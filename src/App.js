@@ -24,7 +24,11 @@ const App = () => {
             alt=""
           />
           <div className="date">{res.release_date}</div>
-          <div className="rate">{res.vote_average}</div>
+
+          <div className="rating">
+            <div className="rate-star"> &#9733;</div>
+            <div className="rate-text">{res.vote_average}</div>
+          </div>
         </div>
       );
     });

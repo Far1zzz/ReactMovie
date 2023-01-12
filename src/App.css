@@ -29,7 +29,7 @@
 .wrapper {
   color: #282c34;
   width: 350px;
-  background-color: aliceblue;
+  background-color: rgb(147, 148, 149);
   border-radius: 25px;
 }
 
@@ -52,9 +52,22 @@
   font-weight: bold;
 }
 
-.rate {
-  color: red;
+.rate-text {
+  font-weight: bold;
+  text-decoration: underline;
   margin-bottom: 24px;
+}
+
+.rating {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  gap: 5px;
+}
+
+.rate-star {
+  color: yellow;
 }
 
 .btn {
