@@ -13,9 +13,9 @@ export const movie = async () => {
 };
 
 // q = value yg dijadikan querry di input
-export const searchMovie = async (q) => {
-  const search = await axios.get(
-    `${process.env.REACT_APP_URL}/search/movie?query=${q}&api_key=${process.env.REACT_APP_KEY}`
+export const searchMovie = async ({ search }) => {
+  const Search = await axios.get(
+    `${process.env.REACT_APP_URL}/search/movie?query=${search}&api_key=${process.env.REACT_APP_KEY}`
   );
-  return search.data;
+  return Search.data;
 };

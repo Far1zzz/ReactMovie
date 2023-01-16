@@ -1,15 +1,21 @@
 import "./App.css";
 import { movie, searchMovie } from "./Api";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { unavailable } from "./config/config";
 
 const App = () => {
   // state tampung data api nya
   const [movies, setMovies] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     movie().then((res) => {
       setMovies(res);
     });
+    Search();
+
+    //eslint-disable-next-line
   }, []);
 
   // mapdata Api
@@ -20,14 +26,18 @@ const App = () => {
           <div className="movie-title">{res.title}</div>
           <img
             className="img"
-            src={`${process.env.REACT_APP_IMG}/${res.poster_path}`}
+            src={
+              res.poster_path
+                ? `${process.env.REACT_APP_IMG}/${res.poster_path}`
+                : unavailable
+            }
             alt=""
           />
           <div className="date">{res.release_date}</div>
 
-          <div className="rating">
-            <div className="rate-star"> &#9733;</div>
-            <div className="rate-text">{res.vote_average}</div>
+          <div className="">
+            <div className="rate-star">&#10032;</div>
+            <div className="rate">{res.vote_average}</div>
           </div>
         </div>
       );
@@ -36,33 +46,34 @@ const App = () => {
 
   // q adalah untuk menampung querry dari inputannya
   // value dari inputan dijadikan queery untuk hitting point
-  const search = async (q) => {
-    if (q.length > 4) {
-      const find = await searchMovie(q);
-      setMovies(find.results);
+  const Search = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_URL}/search/movie?api_key=${process.env.REACT_APP_KEY}&language=en-US&query=${search}&include_adult=false`
+      );
+      setMovies(data.results);
+    } catch (err) {
+      console.error(err);
     }
-  };
-
-  const confirmSearch = () => {
-    alert("COMING SOON");
   };
 
   // console.log({ movies: movies });
 
   return (
     <div className="App">
-      <header onSubmit={confirmSearch} className="App-header">
+      <header className="App-header">
         <p>BELAJAR</p>
-        <form>
+
+        <div>
           <input
             className="search"
             placeholder="search..."
-            onChange={({ target }) => search(target.value)}
+            onChange={(e) => setSearch(e.target.value)}
           />
-          <button className="btn" type="submit">
+          <button className="btn" onClick={Search}>
             Search
           </button>
-        </form>
+        </div>
 
         <div className="container">
           <ListMovie />
